@@ -4,7 +4,7 @@ import Swatch from "./components/swatch";
 import rough from "roughjs/bundled/rough.esm";
 import axios from "axios";
 
-const gen = rough.generator();
+rough.generator();
 
 const midPointBtw = (p1, p2) => {
   return {
@@ -15,6 +15,7 @@ const midPointBtw = (p1, p2) => {
 
 export const adjustElementCoordinates = (element) => {
   const { type, x1, y1, x2, y2 } = element;
+  console.log(type)
   if (x1 < x2 || (x1 === x2 && y1 < y2)) {
     return { x1, y1, x2, y2 };
   } else {
@@ -29,7 +30,7 @@ function App() {
   const [isDrawing, setIsDrawing] = useState(false);
 
   const [points, setPoints] = useState([]);
-  const [path, setPath] = useState([]);
+  // const [path, setPath] = useState([]);
 
   const [action, setAction] = useState("none");
   const [toolType, setToolType] = useState("pencil");
@@ -55,12 +56,6 @@ function App() {
       for (let i = 0; i < newestData[person].points.length; i++) {
         let clientX = newestData[person].points[i].clientX / newestData.length
         let clientY = newestData[person].points[i].clientY / newestData.length
-        let transparency = newestData[person].points[i].transparency
-        const newEle = {
-          clientX,
-          clientY,
-          transparency,
-        };
 
         var midPoint = midPointBtw(clientX, clientY);
         context.quadraticCurveTo(clientX, clientY, midPoint.x, midPoint.y);
@@ -76,7 +71,6 @@ function App() {
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
 
-    const id = elements.length;
     if (toolType === "pencil") {
       setAction("sketching");
       setIsDrawing(true);
@@ -92,7 +86,7 @@ function App() {
       context.lineCap = 5;
       context.moveTo(clientX, clientY);
       context.beginPath();
-    } else if (toolType == "eraser") {
+    } else if (toolType === "eraser") {
       setAction("erasing")
       const canvas = document.getElementById("canvas");
       const context = canvas.getContext("2d");
@@ -126,12 +120,12 @@ function App() {
       const canvas = document.getElementById("canvas");
       const context = canvas.getContext("2d");
       context.closePath();
-      const element = points;
+      // const element = points;
       setPoints([]);
-      setPath((prevState) => [...prevState, element]); //tuple
+      // setPath((prevState) => [...prevState, element]); //tuple
       setIsDrawing(false);
       console.log(elements)
-      if (name != "monitor") axios.post("http://server.milesacq.com:3214/appendData", { name: name, points: points })
+      if (name !== "monitor") axios.post("http://server.milesacq.com:3214/appendData", { name: name, points: points })
     } else {
       setAction("erasing")
       setElements([])
@@ -146,6 +140,7 @@ function App() {
             let arr = []
             Object.entries(e.data).forEach((entry) => {
               const [key, value] = entry;
+              console.log(key)
               arr.push(value)
             });
             console.log(arr)
@@ -158,6 +153,7 @@ function App() {
               let arr = []
               Object.entries(e.data).forEach((entry) => {
                 const [key, value] = entry;
+                console.log(key)
                 arr.push(value)
               });
               console.log(arr)
