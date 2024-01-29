@@ -131,7 +131,7 @@ function App() {
       setPath((prevState) => [...prevState, element]); //tuple
       setIsDrawing(false);
       console.log(elements)
-      if (name != "monitor") axios.post("http://localhost:3214/appendData", { name: name, points: points })
+      if (name != "monitor") axios.post("http://server.milesacq.com:3214/appendData", { name: name, points: points })
     } else {
       setAction("erasing")
       setElements([])
@@ -142,7 +142,7 @@ function App() {
     (monitor ? (
       <>
         <button onClick={() => {
-          axios.get("http://localhost:3214/getData").then((e) => {
+          axios.get("http://:3214/getData").then((e) => {
             let arr = []
             Object.entries(e.data).forEach((entry) => {
               const [key, value] = entry;
@@ -153,8 +153,8 @@ function App() {
           })
         }}>Fetch</button>
         <button onClick={() => {
-          axios.post("http://localhost:3214/eraseData").then(() => {
-            axios.get("http://localhost:3214/getData").then((e) => {
+          axios.post("http://server.milesacq.com:3214/eraseData").then(() => {
+            axios.get("http://server.milesacq.com:3214/getData").then((e) => {
               let arr = []
               Object.entries(e.data).forEach((entry) => {
                 const [key, value] = entry;
