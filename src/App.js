@@ -67,14 +67,25 @@ function App() {
 
   const handleMouseDown = (e) => {
     console.log(toolType);
-    const { clientX, clientY } = e;
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
-
+  
+    const getClientCoordinates = (event) => {
+      if (event.type === "mousedown") {
+        return { clientX: event.clientX, clientY: event.clientY };
+      } else if (event.type === "touchstart" || event.type === "touchmove") {
+        const touch = event.touches[0] || event.changedTouches[0];
+        return { clientX: touch.clientX, clientY: touch.clientY };
+      }
+      return { clientX: 0, clientY: 0 }; // Default to (0,0) if the event type is not recognized
+    };
+  
+    const { clientX, clientY } = getClientCoordinates(e);
+  
     if (toolType === "pencil") {
       setAction("sketching");
       setIsDrawing(true);
-
+  
       const transparency = "1.0";
       const newEle = {
         clientX,
@@ -82,18 +93,15 @@ function App() {
         transparency,
       };
       setPoints((state) => [...state, newEle]);
-
+  
       context.lineCap = 5;
       context.moveTo(clientX, clientY);
       context.beginPath();
     } else if (toolType === "eraser") {
-      setAction("erasing")
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
+      setAction("erasing");
       context.clearRect(0, 0, canvas.width, canvas.height);
-      setPoints([])
-      setElements([])
-
+      setPoints([]);
+      setElements([]);
     }
   };
 
