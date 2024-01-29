@@ -75,6 +75,7 @@ function App() {
         return { clientX: event.clientX, clientY: event.clientY };
       } else if (event.type === "touchstart" || event.type === "touchmove") {
         const touch = event.touches[0] || event.changedTouches[0];
+        console.log(touch)
         return { clientX: touch.clientX, clientY: touch.clientY };
       }
       return { clientX: 0, clientY: 0 }; // Default to (0,0) if the event type is not recognized
@@ -108,7 +109,18 @@ function App() {
   const handleMouseMove = (e) => {
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
-    const { clientX, clientY } = e;
+    const getClientCoordinates = (event) => {
+      if (event.type === "mousedown") {
+        return { clientX: event.clientX, clientY: event.clientY };
+      } else if (event.type === "touchstart" || event.type === "touchmove") {
+        const touch = event.touches[0] || event.changedTouches[0];
+        console.log(touch)
+        return { clientX: touch.clientX, clientY: touch.clientY };
+      }
+      return { clientX: 0, clientY: 0 }; // Default to (0,0) if the event type is not recognized
+    };
+  
+    const { clientX, clientY } = getClientCoordinates(e);
 
     if (action === "sketching") {
       if (!isDrawing) return;
