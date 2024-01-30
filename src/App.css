@@ -5,5 +5,5 @@
 }
 body {
   overflow: hidden; /* Hide scrollbars */
-  position: relative;
+  position: sticky;
 }
