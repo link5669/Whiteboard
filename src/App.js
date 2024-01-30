@@ -9,7 +9,7 @@ const App = () => {
 
   const handleSubmit = () => {
     // axios.post("https://whiteboard-backend.fly.dev/appendData", { note: note, accidental: accidental, chordType: chordType })
-    axios.post("https://whiteboard-backend.fly.dev/appendData", { name: name, note: note, accidental: accidental, chordType: chordType })
+    axios.post("https://whiteboard-backend.fly.dev/appendData", { name: name, note: note, accidental: accidental, chordType: chordType }).then(alert("submitted!"))
 
   };
 
