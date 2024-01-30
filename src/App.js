@@ -24,7 +24,6 @@ const App = () => {
 
   return (
     <div style={{ maxWidth: '375px', margin: '0 auto', padding: '20px', fontFamily: 'Arial' }}>
-      <h1 style={{ textAlign: 'center' }}>Chord Selector</h1>
       <fieldset>
         <legend>Name:</legend>
         <input onChange={(e) => {
@@ -51,7 +50,7 @@ const App = () => {
       </fieldset>
       <fieldset>
         <legend>Chord Type:</legend>
-        {['major', 'minor', 'diminished', 'augmented'].map((c) => (
+        {['major triad', 'minor triad', 'diminished triad', 'augmented', 'dominant 7th', 'minor 7th', 'major 7th', 'half diminished', 'fully diminished'].map((c) => (
           <label key={c} style={{ display: 'block', margin: '10px 0' }}>
             <input type="radio" value={c} checked={chordType === c} onChange={() => setChordType(c)} />
             <span style={buttonStyle}>{c}</span>
