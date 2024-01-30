@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import mongoose from 'mongoose'
-const uri = "mongodb+srv://acqmiles@gmail.com:Link56695669!@cluster0.fy37yls.mongodb.net/?retryWrites=true&w=majority";
 
 const App = () => {
   const [note, setNote] = useState('A');
