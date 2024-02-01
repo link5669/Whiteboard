@@ -23,7 +23,7 @@ const App = () => {
           console.log(e.data.leaderboard)
           setLeaderboard(e.data.leaderboard)
         }
-      })
+      }) 
   };
 
   useEffect(() => {
