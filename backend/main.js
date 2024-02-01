@@ -9,7 +9,7 @@ let currChord = -1
 let gameIndex = -1
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://link5669:56695669@cluster0.fy37yls.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -61,6 +61,7 @@ app.post('/checkAnswer', (req, res) => {
     if (!newData) {
         return res.status(400).json({ error: 'Empty request body' });
     }
+
     let chordIndex = -1
     if (newData.chordType == 'major triad') chordIndex = 0
     else if (newData.chordType == 'minor triad') chordIndex = 1
@@ -77,12 +78,11 @@ app.post('/checkAnswer', (req, res) => {
         userDB.findOne({ name: newData.name }).then((e) => {
             if (e == null) {
                 userDB.insertOne(newData).then(console.log("inserted new user"))
-                return
-            }
-            userDB.updateOne(
-                { name: newData.name },
-                { $set: { score: e.score + 1 } }
-            );
+            } else
+                userDB.updateOne(
+                    { name: newData.name },
+                    { $set: { score: e.score + 1 } }
+                );
         });
         userDB.find().sort({ score: -1 }).limit(5).toArray().then((e) => {
             res.status(201).json({ message: 'Correct!', leaderboard: e });
@@ -93,7 +93,6 @@ app.post('/checkAnswer', (req, res) => {
         userDB.findOne({ name: newData.name }).then((e) => {
             if (e == null) {
                 userDB.insertOne(newData).then(console.log("inserted new user"))
-                return
             }
         });
     }
