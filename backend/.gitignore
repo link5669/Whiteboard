@@ -1,0 +1,11 @@
+/node_modules
+
+Dockerfile
+
+.env
+
+fly.toml
+
+package-lock.json
+
+/net
